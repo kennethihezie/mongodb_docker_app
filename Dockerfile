@@ -1,7 +1,11 @@
 FROM node:22-alpine3.19
 
-RUN mkdir -p /home/app
-
+# copy all project files to /app/ folder. create the directory if it dosen't exits
 COPY . /home/app
 
-CMD [ "npm", "run start:dev" ]
+# switch to the current working directory
+WORKDIR /home/app
+
+RUN npm install
+
+CMD [ "npm", "start" ]
