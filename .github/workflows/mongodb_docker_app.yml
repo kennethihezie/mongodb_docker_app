@@ -17,7 +17,7 @@ env:
 jobs:
   # Jobs rquired. this contains one or more jobs 
   build:
-    runs-on: 'ubuntu-latest'   # The virtual to run the github actions
+    runs-on: 'ubuntu-latest'   # The virtual to run the github actions. ubuntu-latest has docker install
 
     steps:                   # Steps in the build job
       - uses: actions/checkout@v4    # uses is used to select an action. actions/checkout@v4 checks out the code
@@ -28,17 +28,21 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
-      - name: npm install, build, and test
+      - name: npm install and build 
         # you can add  npm run test --if-present to run tests
         run: |
           npm install    
           npm run build --if-present
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v3
+      - name: Build and deploy docker image
+        uses: mr-smithers-excellent/docker-build-push@v4
         with:
-          name: mogodb_docker_app
-          path: .
+          image: razzanx/mongodb-github-actions-app
+          registry: docker.io
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          tag: latest
+        
 
 
           
