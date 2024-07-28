@@ -1,0 +1,46 @@
+name: Mongodb Docker App # Name of the action optional
+
+env:
+  NODE_VERSION: '20.x'  
+
+'on':
+  # Events this is required
+  push:
+    # Event name this is required
+    branches:
+      - main
+      # Branch to interact with
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  # Jobs rquired. this contains one or more jobs 
+  build:
+    runs-on: 'ubuntu-lates'   # The virtual to run the github actions
+
+    steps:                   # Steps in the build job
+      - uses: actions/checkout@v4    # uses is used to select an action. actions/checkout@v4 checks out the code
+
+      - name: Set up Nodejs          # Name of the action
+        uses: actions/setup-node@v3   # another action to setup nodejs
+        with: 
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: npm install, build, and test
+        run: |
+          npm install
+          npm run test --if-present
+          npm run build --if-present
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: mogodb_docker_app
+          path: .
+
+
+          
+
+    
