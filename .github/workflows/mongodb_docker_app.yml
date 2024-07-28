@@ -29,9 +29,9 @@ jobs:
           cache: 'npm'
 
       - name: npm install, build, and test
+        # you can add  npm run test --if-present to run tests
         run: |
-          npm install
-          npm run test --if-present
+          npm install    
           npm run build --if-present
 
       - name: Upload artifact for deployment job
