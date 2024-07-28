@@ -17,7 +17,7 @@ env:
 jobs:
   # Jobs rquired. this contains one or more jobs 
   build:
-    runs-on: 'ubuntu-lates'   # The virtual to run the github actions
+    runs-on: 'ubuntu-latest'   # The virtual to run the github actions
 
     steps:                   # Steps in the build job
       - uses: actions/checkout@v4    # uses is used to select an action. actions/checkout@v4 checks out the code
